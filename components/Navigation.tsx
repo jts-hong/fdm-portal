@@ -30,7 +30,7 @@ export default function Navigation() {
                   href={item.path}
                   className={`px-4 py-2 rounded-md text-sm font-medium transition-colors ${
                     isActive
-                      ? 'bg-white bg-opacity-20 text-white'
+                      ? 'bg-white text-[#4a90e2]'
                       : 'text-white hover:bg-white hover:bg-opacity-10'
                   }`}
                 >

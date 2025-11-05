@@ -93,8 +93,8 @@ export default function Home() {
               onClick={() => setViewMode('gallery')}
               className={`p-2 rounded-md transition-colors ${
                 viewMode === 'gallery'
-                  ? 'bg-blue-600 text-white'
-                  : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
+                  ? 'bg-[#4a90e2] text-white shadow-md'
+                  : 'bg-white text-gray-700 hover:bg-gray-100 border border-gray-300'
               }`}
               title="Gallery View"
             >
@@ -117,8 +117,8 @@ export default function Home() {
               onClick={() => setViewMode('list')}
               className={`p-2 rounded-md transition-colors ${
                 viewMode === 'list'
-                  ? 'bg-blue-600 text-white'
-                  : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
+                  ? 'bg-[#4a90e2] text-white shadow-md'
+                  : 'bg-white text-gray-700 hover:bg-gray-100 border border-gray-300'
               }`}
               title="List View"
             >
