@@ -5,8 +5,8 @@ const nextConfig: NextConfig = {
   images: {
     unoptimized: true,
   },
-  basePath: process.env.NODE_ENV === 'production' ? '/FDM_DSP' : '',
-  assetPrefix: process.env.NODE_ENV === 'production' ? '/FDM_DSP/' : '',
+  basePath: process.env.NODE_ENV === 'production' ? '/fdm-portal' : '',
+  assetPrefix: process.env.NODE_ENV === 'production' ? '/fdm-portal/' : '',
 };
 
 export default nextConfig;

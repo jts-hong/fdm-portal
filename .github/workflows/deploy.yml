@@ -30,23 +30,21 @@ jobs:
       - name: Cache node modules
         uses: actions/cache@v4
         with:
-          path: fdm-portal/node_modules
-          key: ${{ runner.os }}-node-${{ hashFiles('fdm-portal/package-lock.json') }}
+          path: node_modules
+          key: ${{ runner.os }}-node-${{ hashFiles('package-lock.json') }}
           restore-keys: |
             ${{ runner.os }}-node-
 
       - name: Install dependencies
-        working-directory: ./fdm-portal
         run: npm ci
 
       - name: Build
-        working-directory: ./fdm-portal
         run: npm run build
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: ./fdm-portal/out
+          path: ./out
 
   deploy:
     environment:
