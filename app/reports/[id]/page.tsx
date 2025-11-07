@@ -1,6 +1,7 @@
 import Link from 'next/link';
-import { Report } from '@/types/report';
+import { Report, ProcessOwner } from '@/types/report';
 import reportsData from '@/data/reports.json';
+import configData from '@/data/config.json';
 
 interface PageProps {
   params: Promise<{
@@ -27,6 +28,12 @@ export default async function ReportDetailPage({ params }: PageProps) {
       </div>
     );
   }
+
+  // Get process owner details from config
+  const processOwners: ProcessOwner[] = Array.isArray(configData.processOwners) && configData.processOwners[0]?.name
+    ? configData.processOwners as ProcessOwner[]
+    : [];
+  const ownerDetails = processOwners.find((p) => p.name === report.processOwner);
 
   const getFrequencyBadgeClass = (frequency: string) => {
     switch (frequency.toLowerCase()) {
@@ -78,122 +85,130 @@ export default async function ReportDetailPage({ params }: PageProps) {
       {/* Content */}
       <div className="max-w-5xl mx-auto px-4 py-12">
         <div className="bg-white rounded-lg shadow-lg p-8 mb-6">
-          {/* Overview Section */}
+          {/* Description Section */}
           <section className="mb-8">
-            <h2 className="text-2xl font-bold text-gray-900 mb-4">Overview</h2>
+            <h2 className="text-2xl font-bold text-gray-900 mb-4">Description</h2>
             <p className="text-gray-700 leading-relaxed">{report.detailedDescription}</p>
           </section>
 
-          {/* Key Details */}
-          <section className="mb-8 grid grid-cols-1 md:grid-cols-2 gap-6">
-            <div className="bg-gray-50 rounded-lg p-6">
-              <h3 className="text-sm font-semibold text-gray-500 uppercase tracking-wide mb-2">
-                Reporting Domain
-              </h3>
-              <p className="text-lg font-medium text-gray-900">{report.reportingDomain}</p>
-            </div>
-            <div className="bg-gray-50 rounded-lg p-6">
-              <h3 className="text-sm font-semibold text-gray-500 uppercase tracking-wide mb-2">
-                Process Owner
-              </h3>
-              <p className="text-lg font-medium text-gray-900">{report.processOwner}</p>
-            </div>
-            <div className="bg-gray-50 rounded-lg p-6">
-              <h3 className="text-sm font-semibold text-gray-500 uppercase tracking-wide mb-2">
-                Reporting Frequency
-              </h3>
-              <p className="text-lg font-medium text-gray-900">{report.reportingFrequency}</p>
-            </div>
-            <div className="bg-gray-50 rounded-lg p-6">
-              <h3 className="text-sm font-semibold text-gray-500 uppercase tracking-wide mb-2">
-                Last Updated
-              </h3>
-              <p className="text-lg font-medium text-gray-900">
-                {new Date(report.lastUpdated).toLocaleDateString('en-US', {
-                  year: 'numeric',
-                  month: 'long',
-                  day: 'numeric',
-                })}
-              </p>
-            </div>
-          </section>
-
-          {/* Features */}
-          {report.features && report.features.length > 0 && (
+          {/* Source Tables */}
+          {report.sourceTables && report.sourceTables.length > 0 && (
             <section className="mb-8">
-              <h2 className="text-2xl font-bold text-gray-900 mb-4">Key Features</h2>
-              <ul className="space-y-3">
-                {report.features.map((feature, index) => (
-                  <li key={index} className="flex items-start">
-                    <svg
-                      className="h-6 w-6 text-blue-600 mr-3 flex-shrink-0"
-                      fill="none"
-                      viewBox="0 0 24 24"
-                      stroke="currentColor"
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth={2}
-                        d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
-                      />
-                    </svg>
-                    <span className="text-gray-700">{feature}</span>
-                  </li>
+              <h2 className="text-2xl font-bold text-gray-900 mb-4">Source Tables</h2>
+              <div className="flex flex-wrap gap-2">
+                {report.sourceTables.map((table, index) => (
+                  <span
+                    key={index}
+                    className="px-3 py-1 bg-blue-100 text-blue-800 rounded-md text-sm font-mono"
+                  >
+                    {table}
+                  </span>
                 ))}
-              </ul>
+              </div>
             </section>
           )}
 
-          {/* Access Information */}
-          <section className="border-t pt-8">
-            <h2 className="text-2xl font-bold text-gray-900 mb-6">Access & Contact</h2>
+          {/* All Filters Section */}
+          <section className="mb-8">
+            <h2 className="text-2xl font-bold text-gray-900 mb-4">Report Details</h2>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              <div className="bg-blue-50 rounded-lg p-6 border border-blue-200">
-                <h3 className="font-semibold text-gray-900 mb-2 flex items-center">
-                  <svg
-                    className="h-5 w-5 text-blue-600 mr-2"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    stroke="currentColor"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth={2}
-                      d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"
-                    />
-                  </svg>
-                  Access Instructions
+              <div className="bg-gray-50 rounded-lg p-6">
+                <h3 className="text-sm font-semibold text-gray-500 uppercase tracking-wide mb-2">
+                  Reporting Domain
                 </h3>
-                <p className="text-gray-700">{report.accessInstructions}</p>
+                <p className="text-lg font-medium text-gray-900">{report.reportingDomain}</p>
               </div>
-              <div className="bg-green-50 rounded-lg p-6 border border-green-200">
-                <h3 className="font-semibold text-gray-900 mb-2 flex items-center">
-                  <svg
-                    className="h-5 w-5 text-green-600 mr-2"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    stroke="currentColor"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth={2}
-                      d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"
-                    />
-                  </svg>
-                  Contact
+              <div className="bg-gray-50 rounded-lg p-6">
+                <h3 className="text-sm font-semibold text-gray-500 uppercase tracking-wide mb-2">
+                  Process Owner
                 </h3>
-                <a
-                  href={`mailto:${report.contactEmail}`}
-                  className="text-blue-600 hover:text-blue-800 hover:underline"
-                >
-                  {report.contactEmail}
-                </a>
+                <p className="text-lg font-medium text-gray-900">{report.processOwner}</p>
+                {ownerDetails && (
+                  <div className="mt-3 space-y-1 text-sm text-gray-600">
+                    <p>
+                      <span className="font-semibold">EID:</span> {ownerDetails.eid}
+                    </p>
+                    <p>
+                      <span className="font-semibold">Email:</span>{' '}
+                      <a
+                        href={`mailto:${ownerDetails.email}`}
+                        className="text-blue-600 hover:text-blue-800 hover:underline"
+                      >
+                        {ownerDetails.email}
+                      </a>
+                    </p>
+                    <p>
+                      <span className="font-semibold">Team:</span> {ownerDetails.team}
+                    </p>
+                  </div>
+                )}
+              </div>
+              <div className="bg-gray-50 rounded-lg p-6">
+                <h3 className="text-sm font-semibold text-gray-500 uppercase tracking-wide mb-2">
+                  Team
+                </h3>
+                <p className="text-lg font-medium text-gray-900">{report.team}</p>
+              </div>
+              <div className="bg-gray-50 rounded-lg p-6">
+                <h3 className="text-sm font-semibold text-gray-500 uppercase tracking-wide mb-2">
+                  Reporting Frequency
+                </h3>
+                <p className="text-lg font-medium text-gray-900">{report.reportingFrequency}</p>
+              </div>
+              <div className="bg-gray-50 rounded-lg p-6">
+                <h3 className="text-sm font-semibold text-gray-500 uppercase tracking-wide mb-2">
+                  Last Updated
+                </h3>
+                <p className="text-lg font-medium text-gray-900">
+                  {new Date(report.lastUpdated).toLocaleDateString('en-US', {
+                    year: 'numeric',
+                    month: 'long',
+                    day: 'numeric',
+                  })}
+                </p>
               </div>
             </div>
           </section>
+
+          {/* Destination Link */}
+          {report.destinationLink && (
+            <section className="mb-8">
+              <h2 className="text-2xl font-bold text-gray-900 mb-4">Report Link</h2>
+              <div className="bg-blue-50 rounded-lg p-6 border border-blue-200">
+                <a
+                  href={report.destinationLink}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-blue-600 hover:text-blue-800 hover:underline font-medium flex items-center"
+                >
+                  <svg
+                    className="h-5 w-5 mr-2"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"
+                    />
+                  </svg>
+                  {report.destinationLink}
+                </a>
+              </div>
+            </section>
+          )}
+
+          {/* Access Needed */}
+          {report.accessNeeded && (
+            <section className="mb-8">
+              <h2 className="text-2xl font-bold text-gray-900 mb-4">Access Needed</h2>
+              <div className="bg-yellow-50 rounded-lg p-6 border border-yellow-200">
+                <p className="text-gray-700">{report.accessNeeded}</p>
+              </div>
+            </section>
+          )}
         </div>
       </div>
     </div>

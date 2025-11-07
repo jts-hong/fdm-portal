@@ -6,6 +6,7 @@ import FilterSidebar from '@/components/FilterSidebar';
 import ReportCard from '@/components/ReportCard';
 import { Report, ViewMode, FilterState } from '@/types/report';
 import reportsData from '@/data/reports.json';
+import configData from '@/data/config.json';
 
 export default function Home() {
   const reports: Report[] = reportsData as Report[];
@@ -14,23 +15,39 @@ export default function Home() {
   const [filters, setFilters] = useState<FilterState>({
     reportingDomains: [],
     processOwners: [],
+    teams: [],
     reportingFrequencies: [],
     searchQuery: '',
   });
 
-  // Extract unique values for filters
-  const availableDomains = useMemo(
-    () => [...new Set(reports.map((r) => r.reportingDomain))].sort(),
-    [reports]
-  );
-  const availableOwners = useMemo(
-    () => [...new Set(reports.map((r) => r.processOwner))].sort(),
-    [reports]
-  );
-  const availableFrequencies = useMemo(
-    () => [...new Set(reports.map((r) => r.reportingFrequency))].sort(),
-    [reports]
-  );
+  // Use config file for available options, but also include any values found in reports
+  const availableDomains = useMemo(() => {
+    const reportDomains = new Set(reports.map((r) => r.reportingDomain));
+    const configDomains = new Set(configData.reportingDomains);
+    return Array.from(new Set([...configDomains, ...reportDomains])).sort();
+  }, [reports]);
+
+  const availableOwners = useMemo(() => {
+    const reportOwners = new Set(reports.map((r) => r.processOwner));
+    const configOwners = new Set(
+      Array.isArray(configData.processOwners) && configData.processOwners[0]?.name
+        ? configData.processOwners.map((p: any) => p.name)
+        : configData.processOwners
+    );
+    return Array.from(new Set([...configOwners, ...reportOwners])).sort();
+  }, [reports]);
+
+  const availableTeams = useMemo(() => {
+    const reportTeams = new Set(reports.map((r) => r.team));
+    const configTeams = new Set(configData.teams);
+    return Array.from(new Set([...configTeams, ...reportTeams])).sort();
+  }, [reports]);
+
+  const availableFrequencies = useMemo(() => {
+    const reportFrequencies = new Set(reports.map((r) => r.reportingFrequency));
+    const configFrequencies = new Set(configData.reportingFrequencies);
+    return Array.from(new Set([...configFrequencies, ...reportFrequencies])).sort();
+  }, [reports]);
 
   // Filter reports
   const filteredReports = useMemo(() => {
@@ -56,6 +73,14 @@ export default function Home() {
       if (
         filters.processOwners.length > 0 &&
         !filters.processOwners.includes(report.processOwner)
+      ) {
+        return false;
+      }
+
+      // Team filter
+      if (
+        filters.teams.length > 0 &&
+        !filters.teams.includes(report.team)
       ) {
         return false;
       }
@@ -148,6 +173,7 @@ export default function Home() {
               onFilterChange={setFilters}
               availableDomains={availableDomains}
               availableOwners={availableOwners}
+              availableTeams={availableTeams}
               availableFrequencies={availableFrequencies}
             />
           </div>

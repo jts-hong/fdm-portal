@@ -4,17 +4,18 @@
     "name": "BCM Change Dashboard",
     "reportingDomain": "Business Continuity",
     "processOwner": "John Smith",
+    "team": "BCM Team",
     "reportingFrequency": "Daily",
     "shortDescription": "The BCM Change Dashboard is a tool used primarily by BCRM risk advisors to identify and track changes in metrics related to Plans, Applications and Third Parties.",
     "detailedDescription": "This comprehensive dashboard provides real-time insights into Business Continuity Management changes across the organization. It tracks modifications in business continuity plans, application dependencies, and third-party relationships. The tool enables risk advisors to proactively manage and respond to changes that may impact business continuity.",
-    "features": [
-      "Real-time change tracking",
-      "Automated alerts for critical changes",
-      "Historical trend analysis",
-      "Integration with BCRM systems"
+    "sourceTables": [
+      "BCM_Plans_Table",
+      "BCM_Applications_Table",
+      "BCM_ThirdParties_Table",
+      "BCM_Changes_Log"
     ],
-    "accessInstructions": "Request access through IT Service Portal",
-    "contactEmail": "john.smith@fdm.com",
+    "destinationLink": "https://portal.company.com/bcm-change-dashboard",
+    "accessNeeded": "BCM Portal Access, Risk Advisor Role",
     "lastUpdated": "2024-11-03"
   },
   {
@@ -22,18 +23,18 @@
     "name": "BCM Metrics Tool",
     "reportingDomain": "Business Continuity",
     "processOwner": "Sarah Johnson",
+    "team": "BCM Team",
     "reportingFrequency": "Daily",
     "shortDescription": "The BCM Dashboard is the primary tool that both 1st and 2nd Line teams use to access Business Continuity related metrics and is updated on a daily basis.",
     "detailedDescription": "A comprehensive metrics dashboard that serves as the central hub for Business Continuity Management data. It provides daily updates on key performance indicators, compliance metrics, and operational readiness scores. The tool includes several ORP metrics reported on a quarterly basis for executive reporting.",
-    "features": [
-      "Daily metric updates",
-      "1st and 2nd line team access",
-      "Quarterly ORP metrics",
-      "Executive reporting capabilities",
-      "Customizable dashboards"
+    "sourceTables": [
+      "BCM_Metrics_Daily",
+      "BCM_KPI_Table",
+      "BCM_Compliance_Table",
+      "BCM_ORP_Metrics"
     ],
-    "accessInstructions": "Available to all BCM team members",
-    "contactEmail": "sarah.johnson@fdm.com",
+    "destinationLink": "https://portal.company.com/bcm-metrics",
+    "accessNeeded": "BCM Portal Access, 1st or 2nd Line Team Membership",
     "lastUpdated": "2024-11-03"
   },
   {
@@ -41,18 +42,18 @@
     "name": "BCRM MRA Metrics Dashboard",
     "reportingDomain": "Business Continuity",
     "processOwner": "Michael Chen",
+    "team": "BCM Team",
     "reportingFrequency": "Daily",
     "shortDescription": "The BCRM MRA Metric Dashboard incorporates elements such as proficiency-to-process mismatches and new metrics related to supporting MRA-related work.",
     "detailedDescription": "This specialized dashboard focuses on Minimum Required Activities (MRA) within the Business Continuity and Resiliency Management framework. It tracks proficiency levels, identifies skill gaps, monitors RTO Gap dispositioning, and provides actionable insights for improving organizational resilience.",
-    "features": [
-      "Proficiency tracking",
-      "RTO Gap monitoring",
-      "MRA compliance scoring",
-      "Skills gap analysis",
-      "Process mismatch identification"
+    "sourceTables": [
+      "BCRM_Proficiency_Table",
+      "BCRM_RTO_Gaps",
+      "BCRM_MRA_Compliance",
+      "BCRM_Skills_Gap_Analysis"
     ],
-    "accessInstructions": "Restricted to BCRM team leads",
-    "contactEmail": "michael.chen@fdm.com",
+    "destinationLink": "https://portal.company.com/bcrm-mra-metrics",
+    "accessNeeded": "BCRM Team Lead Role, MRA Access Permission",
     "lastUpdated": "2024-11-03"
   },
   {
@@ -60,19 +61,18 @@
     "name": "BCRM Workforce Concentration Index Dashboard",
     "reportingDomain": "Business Continuity",
     "processOwner": "Emily Rodriguez",
+    "team": "BCM Team",
     "reportingFrequency": "Quarterly",
     "shortDescription": "The BCRM Workforce Concentration Index Dashboard displays data used to create the Workforce Concentration Index metric.",
     "detailedDescription": "This analytical tool measures the concentration of associates and contractors in key regions based on home location. The Workforce Concentration Index is presented as a score using the Herfindahl-Hirschman Index methodology, helping identify geographic concentration risks that could impact business continuity. The dashboard provides insights for workforce distribution planning and risk mitigation strategies.",
-    "features": [
-      "Geographic concentration analysis",
-      "Herfindahl-Hirschman Index calculation",
-      "Associate and contractor tracking",
-      "Regional risk assessment",
-      "Quarterly trend analysis",
-      "Strategic planning insights"
+    "sourceTables": [
+      "HR_Associates_Location",
+      "HR_Contractors_Location",
+      "BCRM_Geographic_Data",
+      "BCRM_Concentration_Index"
     ],
-    "accessInstructions": "Available to HR and BCRM leadership",
-    "contactEmail": "emily.rodriguez@fdm.com",
+    "destinationLink": "https://portal.company.com/bcrm-workforce-concentration",
+    "accessNeeded": "HR Department Access, BCRM Leadership Role",
     "lastUpdated": "2024-11-03"
   },
   {
@@ -80,18 +80,18 @@
     "name": "Access Control Metrics Dashboard",
     "reportingDomain": "Access Control",
     "processOwner": "David Park",
+    "team": "Security Operations",
     "reportingFrequency": "Weekly",
     "shortDescription": "Comprehensive dashboard tracking access control metrics, user permissions, and compliance status across all systems.",
     "detailedDescription": "This dashboard provides detailed visibility into access control management across the organization. It monitors user access patterns, tracks permission changes, identifies access violations, and ensures compliance with security policies. The tool integrates with identity management systems to provide real-time insights.",
-    "features": [
-      "Real-time access monitoring",
-      "Permission change tracking",
-      "Compliance status reports",
-      "Access violation alerts",
-      "User activity analytics"
+    "sourceTables": [
+      "Security_User_Access_Log",
+      "Security_Permissions_Table",
+      "Security_Compliance_Status",
+      "Security_Violations_Table"
     ],
-    "accessInstructions": "Request through Security Operations",
-    "contactEmail": "david.park@fdm.com",
+    "destinationLink": "https://portal.company.com/access-control-dashboard",
+    "accessNeeded": "Security Operations Access, Identity Management Permission",
     "lastUpdated": "2024-11-03"
   },
   {
@@ -99,19 +99,18 @@
     "name": "Enterprise Risk Assessment Tool",
     "reportingDomain": "Risks",
     "processOwner": "Lisa Anderson",
+    "team": "Risk Management",
     "reportingFrequency": "Monthly",
     "shortDescription": "Comprehensive risk assessment platform for identifying, evaluating, and managing enterprise-wide risks.",
     "detailedDescription": "A sophisticated risk management platform that enables comprehensive risk identification, assessment, and mitigation tracking. The tool supports quantitative and qualitative risk analysis, provides risk scoring, and facilitates risk reporting to senior management and regulators.",
-    "features": [
-      "Risk identification and cataloging",
-      "Quantitative risk scoring",
-      "Mitigation tracking",
-      "Regulatory reporting",
-      "Heat map visualization",
-      "Trend analysis"
+    "sourceTables": [
+      "Risk_Identification_Table",
+      "Risk_Assessment_Scores",
+      "Risk_Mitigation_Tracking",
+      "Risk_Regulatory_Reports"
     ],
-    "accessInstructions": "Available to all risk managers",
-    "contactEmail": "lisa.anderson@fdm.com",
+    "destinationLink": "https://portal.company.com/risk-assessment",
+    "accessNeeded": "Risk Manager Role, Enterprise Risk Portal Access",
     "lastUpdated": "2024-11-03"
   }
 ]

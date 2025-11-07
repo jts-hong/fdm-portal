@@ -1,5 +1,6 @@
 'use client';
 
+import { useState, useRef, useEffect } from 'react';
 import { FilterState } from '@/types/report';
 
 interface FilterSidebarProps {
@@ -7,7 +8,119 @@ interface FilterSidebarProps {
   onFilterChange: (filters: FilterState) => void;
   availableDomains: string[];
   availableOwners: string[];
+  availableTeams: string[];
   availableFrequencies: string[];
+}
+
+interface MultiSelectProps {
+  label: string;
+  options: string[];
+  selected: string[];
+  onChange: (selected: string[]) => void;
+}
+
+function MultiSelect({ label, options, selected, onChange }: MultiSelectProps) {
+  const [isOpen, setIsOpen] = useState(false);
+  const dropdownRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    function handleClickOutside(event: MouseEvent) {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
+        setIsOpen(false);
+      }
+    }
+
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, []);
+
+  const toggleOption = (option: string) => {
+    if (selected.includes(option)) {
+      onChange(selected.filter((item) => item !== option));
+    } else {
+      onChange([...selected, option]);
+    }
+  };
+
+  const displayText = selected.length === 0 
+    ? `All ${label}` 
+    : selected.length === 1 
+    ? selected[0] 
+    : `${selected.length} selected`;
+
+  return (
+    <div className="mb-6 relative" ref={dropdownRef}>
+      <label className="block font-semibold mb-2 text-gray-700">{label}</label>
+      <button
+        type="button"
+        onClick={() => setIsOpen(!isOpen)}
+        className="w-full px-4 py-2.5 bg-white border border-gray-300 rounded-lg shadow-sm hover:border-blue-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all text-left flex items-center justify-between"
+      >
+        <span className={`text-sm ${selected.length === 0 ? 'text-gray-500' : 'text-gray-900'}`}>
+          {displayText}
+        </span>
+        <svg
+          className={`w-5 h-5 text-gray-400 transition-transform ${isOpen ? 'transform rotate-180' : ''}`}
+          fill="none"
+          stroke="currentColor"
+          viewBox="0 0 24 24"
+        >
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+        </svg>
+      </button>
+
+      {isOpen && (
+        <div className="absolute z-50 w-full mt-1 bg-white border border-gray-300 rounded-lg shadow-lg max-h-60 overflow-auto">
+          <div className="p-2">
+            {options.map((option) => {
+              const isSelected = selected.includes(option);
+              return (
+                <label
+                  key={option}
+                  className="flex items-center px-3 py-2 hover:bg-blue-50 rounded-md cursor-pointer transition-colors"
+                >
+                  <input
+                    type="checkbox"
+                    checked={isSelected}
+                    onChange={() => toggleOption(option)}
+                    className="w-4 h-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500 focus:ring-2"
+                  />
+                  <span className="ml-3 text-sm text-gray-700">{option}</span>
+                </label>
+              );
+            })}
+          </div>
+        </div>
+      )}
+
+      {/* Selected badges */}
+      {selected.length > 0 && (
+        <div className="mt-2 flex flex-wrap gap-2">
+          {selected.map((item) => (
+            <span
+              key={item}
+              className="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium bg-blue-100 text-blue-800"
+            >
+              {item}
+              <button
+                type="button"
+                onClick={() => toggleOption(item)}
+                className="ml-1.5 inline-flex items-center justify-center w-4 h-4 rounded-full hover:bg-blue-200 focus:outline-none"
+              >
+                <svg className="w-3 h-3" fill="currentColor" viewBox="0 0 20 20">
+                  <path
+                    fillRule="evenodd"
+                    d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
+                    clipRule="evenodd"
+                  />
+                </svg>
+              </button>
+            </span>
+          ))}
+        </div>
+      )}
+    </div>
+  );
 }
 
 export default function FilterSidebar({
@@ -15,92 +128,40 @@ export default function FilterSidebar({
   onFilterChange,
   availableDomains,
   availableOwners,
+  availableTeams,
   availableFrequencies,
 }: FilterSidebarProps) {
-  const handleDomainToggle = (domain: string) => {
-    const newDomains = filters.reportingDomains.includes(domain)
-      ? filters.reportingDomains.filter((d) => d !== domain)
-      : [...filters.reportingDomains, domain];
-    onFilterChange({ ...filters, reportingDomains: newDomains });
-  };
-
-  const handleOwnerToggle = (owner: string) => {
-    const newOwners = filters.processOwners.includes(owner)
-      ? filters.processOwners.filter((o) => o !== owner)
-      : [...filters.processOwners, owner];
-    onFilterChange({ ...filters, processOwners: newOwners });
-  };
-
-  const handleFrequencyToggle = (frequency: string) => {
-    const newFrequencies = filters.reportingFrequencies.includes(frequency)
-      ? filters.reportingFrequencies.filter((f) => f !== frequency)
-      : [...filters.reportingFrequencies, frequency];
-    onFilterChange({ ...filters, reportingFrequencies: newFrequencies });
-  };
-
   return (
     <div className="bg-white rounded-lg shadow-md p-6">
-      <h2 className="text-xl font-bold mb-6">Filters</h2>
+      <h2 className="text-xl font-bold mb-6 text-gray-900">Filters</h2>
 
-      {/* Reporting Domain */}
-      <div className="mb-6">
-        <h3 className="font-semibold mb-3 text-gray-700">Reporting Domain</h3>
-        <div className="space-y-2">
-          {availableDomains.map((domain) => (
-            <label key={domain} className="flex items-center cursor-pointer group">
-              <input
-                type="checkbox"
-                checked={filters.reportingDomains.includes(domain)}
-                onChange={() => handleDomainToggle(domain)}
-                className="w-4 h-4 filter-checkbox rounded border-gray-300 focus:ring-2 focus:ring-blue-500"
-              />
-              <span className="ml-2 text-sm text-gray-700 group-hover:text-gray-900">
-                {domain}
-              </span>
-            </label>
-          ))}
-        </div>
-      </div>
+      <MultiSelect
+        label="Reporting Domain"
+        options={availableDomains}
+        selected={filters.reportingDomains}
+        onChange={(selected) => onFilterChange({ ...filters, reportingDomains: selected })}
+      />
 
-      {/* Process Owner */}
-      <div className="mb-6">
-        <h3 className="font-semibold mb-3 text-gray-700">Process Owner</h3>
-        <div className="space-y-2">
-          {availableOwners.map((owner) => (
-            <label key={owner} className="flex items-center cursor-pointer group">
-              <input
-                type="checkbox"
-                checked={filters.processOwners.includes(owner)}
-                onChange={() => handleOwnerToggle(owner)}
-                className="w-4 h-4 filter-checkbox rounded border-gray-300 focus:ring-2 focus:ring-blue-500"
-              />
-              <span className="ml-2 text-sm text-gray-700 group-hover:text-gray-900">
-                {owner}
-              </span>
-            </label>
-          ))}
-        </div>
-      </div>
+      <MultiSelect
+        label="Process Owner"
+        options={availableOwners}
+        selected={filters.processOwners}
+        onChange={(selected) => onFilterChange({ ...filters, processOwners: selected })}
+      />
 
-      {/* Reporting Frequency */}
-      <div className="mb-6">
-        <h3 className="font-semibold mb-3 text-gray-700">Reporting Frequency</h3>
-        <div className="space-y-2">
-          {availableFrequencies.map((frequency) => (
-            <label key={frequency} className="flex items-center cursor-pointer group">
-              <input
-                type="checkbox"
-                checked={filters.reportingFrequencies.includes(frequency)}
-                onChange={() => handleFrequencyToggle(frequency)}
-                className="w-4 h-4 filter-checkbox rounded border-gray-300 focus:ring-2 focus:ring-blue-500"
-              />
-              <span className="ml-2 text-sm text-gray-700 group-hover:text-gray-900">
-                {frequency}
-              </span>
-            </label>
-          ))}
-        </div>
-      </div>
+      <MultiSelect
+        label="Team"
+        options={availableTeams}
+        selected={filters.teams}
+        onChange={(selected) => onFilterChange({ ...filters, teams: selected })}
+      />
+
+      <MultiSelect
+        label="Reporting Frequency"
+        options={availableFrequencies}
+        selected={filters.reportingFrequencies}
+        onChange={(selected) => onFilterChange({ ...filters, reportingFrequencies: selected })}
+      />
 
       {/* Reset Filters */}
       <button
@@ -108,11 +169,12 @@ export default function FilterSidebar({
           onFilterChange({
             reportingDomains: [],
             processOwners: [],
+            teams: [],
             reportingFrequencies: [],
             searchQuery: filters.searchQuery,
           })
         }
-        className="w-full mt-4 px-4 py-2 bg-gray-200 text-gray-700 rounded-md hover:bg-gray-300 transition-colors text-sm font-medium"
+        className="w-full mt-4 px-4 py-2.5 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 transition-colors text-sm font-medium shadow-sm"
       >
         Reset Filters
       </button>

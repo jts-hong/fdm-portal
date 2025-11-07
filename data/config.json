@@ -1,0 +1,80 @@
+{
+  "reportingDomains": [
+    "Business Continuity",
+    "Access Control",
+    "Risks",
+    "Compliance",
+    "Finance",
+    "Operations",
+    "Security",
+    "IT Infrastructure"
+  ],
+  "processOwners": [
+    {
+      "name": "John Smith",
+      "email": "john.smith@fdm.com",
+      "eid": "E12345",
+      "team": "BCM Team"
+    },
+    {
+      "name": "Sarah Johnson",
+      "email": "sarah.johnson@fdm.com",
+      "eid": "E12346",
+      "team": "BCM Team"
+    },
+    {
+      "name": "Michael Chen",
+      "email": "michael.chen@fdm.com",
+      "eid": "E12347",
+      "team": "BCM Team"
+    },
+    {
+      "name": "Emily Rodriguez",
+      "email": "emily.rodriguez@fdm.com",
+      "eid": "E12348",
+      "team": "BCM Team"
+    },
+    {
+      "name": "David Park",
+      "email": "david.park@fdm.com",
+      "eid": "E12349",
+      "team": "Security Operations"
+    },
+    {
+      "name": "Lisa Anderson",
+      "email": "lisa.anderson@fdm.com",
+      "eid": "E12350",
+      "team": "Risk Management"
+    },
+    {
+      "name": "Robert Thompson",
+      "email": "robert.thompson@fdm.com",
+      "eid": "E12351",
+      "team": "FDM Core Team"
+    },
+    {
+      "name": "Jennifer Martinez",
+      "email": "jennifer.martinez@fdm.com",
+      "eid": "E12352",
+      "team": "Data Analytics"
+    }
+  ],
+  "teams": [
+    "FDM Core Team",
+    "BCM Team",
+    "Risk Management",
+    "Compliance Team",
+    "Security Operations",
+    "Data Analytics",
+    "Finance Operations",
+    "IT Support"
+  ],
+  "reportingFrequencies": [
+    "Daily",
+    "Weekly",
+    "Monthly",
+    "Quarterly",
+    "Annual"
+  ]
+}
+

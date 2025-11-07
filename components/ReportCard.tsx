@@ -41,6 +41,10 @@ export default function ReportCard({ report, viewMode }: ReportCardProps) {
                   <span className="font-semibold text-gray-700">Domain:</span>{' '}
                   <span className="text-gray-600">{report.reportingDomain}</span>
                 </div>
+                <div>
+                  <span className="font-semibold text-gray-700">Team:</span>{' '}
+                  <span className="text-gray-600">{report.team}</span>
+                </div>
               </div>
             </div>
             <div>
@@ -72,6 +76,10 @@ export default function ReportCard({ report, viewMode }: ReportCardProps) {
           <div>
             <span className="font-semibold text-gray-700">Domain:</span>{' '}
             <span className="text-gray-600">{report.reportingDomain}</span>
+          </div>
+          <div>
+            <span className="font-semibold text-gray-700">Team:</span>{' '}
+            <span className="text-gray-600">{report.team}</span>
           </div>
         </div>
       </div>
