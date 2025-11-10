@@ -1,22 +1,16 @@
 export default function Hero() {
   return (
-    <div className="hero-gradient text-white py-16 px-4">
-      <div className="max-w-7xl mx-auto">
-        <div className="flex items-center justify-center mb-8">
-          <div className="w-32 h-32 rounded-full bg-white bg-opacity-20 flex items-center justify-center border-4 border-white border-opacity-30">
-            <div className="text-center">
-              <div className="text-4xl font-bold">FDM</div>
-              <div className="text-xs mt-1 tracking-wider">LOGO</div>
-            </div>
-          </div>
+    <div className="relative -mt-20 pt-32 pb-20 hero-gradient text-white">
+      <div className="max-w-[1400px] mx-auto px-4">
+        <div className="space-y-6">
+          <h1 className="text-4xl md:text-5xl xl:text-6xl font-bold leading-tight">
+            Welcome to the <span className="text-sky-200">FDM Data Solution Portal</span>
+          </h1>
+          <p className="text-lg md:text-xl text-white text-opacity-90 max-w-2xl">
+            Centralize your financial reporting, automate distribution, and empower teams with reliable data.
+            Explore curated dashboards, access instructions, and contacts in one unified experience.
+          </p>
         </div>
-        <h1 className="text-4xl md:text-5xl font-bold text-center mb-4">
-          Welcome to FDM Data Solution Portal
-        </h1>
-        <p className="text-lg md:text-xl text-center max-w-4xl mx-auto text-white text-opacity-90">
-          Financial Data Management (FDM) provides analytical and reporting support across the organization,
-          focusing on data-driven insights, advanced analytics, and comprehensive reporting solutions.
-        </p>
       </div>
     </div>
   );

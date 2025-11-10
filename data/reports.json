@@ -16,7 +16,8 @@
     ],
     "destinationLink": "https://portal.company.com/bcm-change-dashboard",
     "accessNeeded": "BCM Portal Access, Risk Advisor Role",
-    "lastUpdated": "2024-11-03"
+    "lastUpdated": "2024-11-03",
+    "businessDays": []
   },
   {
     "id": "bcm-metrics-tool",
@@ -35,7 +36,8 @@
     ],
     "destinationLink": "https://portal.company.com/bcm-metrics",
     "accessNeeded": "BCM Portal Access, 1st or 2nd Line Team Membership",
-    "lastUpdated": "2024-11-03"
+    "lastUpdated": "2024-11-03",
+    "businessDays": []
   },
   {
     "id": "bcrm-mra-metrics",
@@ -54,7 +56,8 @@
     ],
     "destinationLink": "https://portal.company.com/bcrm-mra-metrics",
     "accessNeeded": "BCRM Team Lead Role, MRA Access Permission",
-    "lastUpdated": "2024-11-03"
+    "lastUpdated": "2024-11-03",
+    "businessDays": []
   },
   {
     "id": "bcrm-workforce-concentration",
@@ -73,7 +76,8 @@
     ],
     "destinationLink": "https://portal.company.com/bcrm-workforce-concentration",
     "accessNeeded": "HR Department Access, BCRM Leadership Role",
-    "lastUpdated": "2024-11-03"
+    "lastUpdated": "2024-11-03",
+    "businessDays": [-3, -2, -1, 1, 2, 3]
   },
   {
     "id": "access-control-dashboard",
@@ -92,7 +96,8 @@
     ],
     "destinationLink": "https://portal.company.com/access-control-dashboard",
     "accessNeeded": "Security Operations Access, Identity Management Permission",
-    "lastUpdated": "2024-11-03"
+    "lastUpdated": "2024-11-03",
+    "businessDays": []
   },
   {
     "id": "risk-assessment-tool",
@@ -111,7 +116,8 @@
     ],
     "destinationLink": "https://portal.company.com/risk-assessment",
     "accessNeeded": "Risk Manager Role, Enterprise Risk Portal Access",
-    "lastUpdated": "2024-11-03"
+    "lastUpdated": "2024-11-03",
+    "businessDays": [-3, -2, -1, 1, 2, 3]
   }
 ]
 

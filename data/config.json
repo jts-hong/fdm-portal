@@ -14,49 +14,100 @@
       "name": "John Smith",
       "email": "john.smith@fdm.com",
       "eid": "E12345",
-      "team": "BCM Team"
+      "team": "BCM Team",
+      "title": "Lead Risk Advisor",
+      "phone": "+1 (555) 213-4501",
+      "primaryFocus": "Business continuity planning and risk advisory"
     },
     {
       "name": "Sarah Johnson",
       "email": "sarah.johnson@fdm.com",
       "eid": "E12346",
-      "team": "BCM Team"
+      "team": "BCM Team",
+      "title": "Senior Metrics Analyst",
+      "phone": "+1 (555) 213-4502",
+      "primaryFocus": "Daily BCM metric reporting and KPI governance"
     },
     {
       "name": "Michael Chen",
       "email": "michael.chen@fdm.com",
       "eid": "E12347",
-      "team": "BCM Team"
+      "team": "BCM Team",
+      "title": "MRA Program Manager",
+      "phone": "+1 (555) 213-4503",
+      "primaryFocus": "Minimum required activities oversight"
     },
     {
       "name": "Emily Rodriguez",
       "email": "emily.rodriguez@fdm.com",
       "eid": "E12348",
-      "team": "BCM Team"
+      "team": "BCM Team",
+      "title": "Workforce Analytics Lead",
+      "phone": "+1 (555) 213-4504",
+      "primaryFocus": "Workforce concentration analytics"
     },
     {
       "name": "David Park",
       "email": "david.park@fdm.com",
       "eid": "E12349",
-      "team": "Security Operations"
+      "team": "Security Operations",
+      "title": "Access Governance Manager",
+      "phone": "+1 (555) 213-4505",
+      "primaryFocus": "Identity and access management reporting"
     },
     {
       "name": "Lisa Anderson",
       "email": "lisa.anderson@fdm.com",
       "eid": "E12350",
-      "team": "Risk Management"
+      "team": "Risk Management",
+      "title": "Enterprise Risk Officer",
+      "phone": "+1 (555) 213-4506",
+      "primaryFocus": "Enterprise risk assessments and regulatory reporting"
     },
     {
       "name": "Robert Thompson",
       "email": "robert.thompson@fdm.com",
       "eid": "E12351",
-      "team": "FDM Core Team"
+      "team": "FDM Core Team",
+      "title": "Data Operations Supervisor",
+      "phone": "+1 (555) 213-4507",
+      "primaryFocus": "Report intake and data quality triage"
     },
     {
       "name": "Jennifer Martinez",
       "email": "jennifer.martinez@fdm.com",
       "eid": "E12352",
-      "team": "Data Analytics"
+      "team": "Data Analytics",
+      "title": "Senior Data Scientist",
+      "phone": "+1 (555) 213-4508",
+      "primaryFocus": "Advanced analytics and predictive modeling"
+    },
+    {
+      "name": "Priya Patel",
+      "email": "priya.patel@fdm.com",
+      "eid": "E12353",
+      "team": "Compliance Team",
+      "title": "Regulatory Reporting Specialist",
+      "phone": "+1 (555) 213-4509",
+      "primaryFocus": "Compliance attestations and audit support"
+    },
+    {
+      "name": "Marcus Lee",
+      "email": "marcus.lee@fdm.com",
+      "eid": "E12354",
+      "team": "Finance Operations",
+      "title": "Financial Data Steward",
+      "phone": "+1 (555) 213-4510",
+      "primaryFocus": "Financial reconciliations and cost analytics"
+    },
+    {
+      "name": "Hannah Nguyen",
+      "email": "hannah.nguyen@fdm.com",
+      "eid": "E12355",
+      "team": "IT Support",
+      "title": "Solutions Architect",
+      "phone": "+1 (555) 213-4511",
+      "primaryFocus": "Portal integrations and technical enablement"
     }
   ],
   "teams": [

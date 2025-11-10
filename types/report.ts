@@ -11,6 +11,7 @@ export interface Report {
   destinationLink: string;
   accessNeeded: string;
   lastUpdated: string;
+  businessDays?: number[];
 }
 
 export interface ProcessOwner {
@@ -18,6 +19,9 @@ export interface ProcessOwner {
   email: string;
   eid: string;
   team: string;
+  title: string;
+  phone: string;
+  primaryFocus: string;
 }
 
 export type ViewMode = 'gallery' | 'list';

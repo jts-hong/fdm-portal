@@ -34,6 +34,10 @@ export default async function ReportDetailPage({ params }: PageProps) {
     ? configData.processOwners as ProcessOwner[]
     : [];
   const ownerDetails = processOwners.find((p) => p.name === report.processOwner);
+  const showBusinessDays =
+    ['Monthly', 'Quarterly', 'Annual'].includes(report.reportingFrequency) &&
+    Array.isArray(report.businessDays) &&
+    report.businessDays.length > 0;
 
   const getFrequencyBadgeClass = (frequency: string) => {
     switch (frequency.toLowerCase()) {
@@ -53,8 +57,8 @@ export default async function ReportDetailPage({ params }: PageProps) {
   return (
     <div className="min-h-screen bg-gray-50">
       {/* Header */}
-      <div className="hero-gradient text-white py-12">
-        <div className="max-w-5xl mx-auto px-4">
+      <div className="relative -mt-20 pt-32 pb-12 hero-gradient text-white">
+        <div className="max-w-[1400px] mx-auto px-4">
           <Link
             href="/"
             className="inline-flex items-center text-white hover:text-gray-200 mb-6 transition-colors"
@@ -83,7 +87,7 @@ export default async function ReportDetailPage({ params }: PageProps) {
       </div>
 
       {/* Content */}
-      <div className="max-w-5xl mx-auto px-4 py-12">
+      <div className="max-w-[1400px] mx-auto px-4 py-12">
         <div className="bg-white rounded-lg shadow-lg p-8 mb-6">
           {/* Description Section */}
           <section className="mb-8">
@@ -108,7 +112,7 @@ export default async function ReportDetailPage({ params }: PageProps) {
             </section>
           )}
 
-          {/* All Filters Section */}
+          {/* Report Details */}
           <section className="mb-8">
             <h2 className="text-2xl font-bold text-gray-900 mb-4">Report Details</h2>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -169,6 +173,26 @@ export default async function ReportDetailPage({ params }: PageProps) {
               </div>
             </div>
           </section>
+
+          {/* Business Days */}
+          {showBusinessDays && (
+            <section className="mb-8">
+              <h2 className="text-2xl font-bold text-gray-900 mb-4">Business Day Offsets</h2>
+              <p className="text-sm text-gray-600 mb-3">
+                Execution schedule relative to the primary business day (negative values run before, positive values after).
+              </p>
+              <div className="flex flex-wrap gap-2">
+                {report.businessDays!.map((offset, index) => (
+                  <span
+                    key={`${offset}-${index}`}
+                    className="px-3 py-1 bg-indigo-100 text-indigo-800 rounded-md text-sm font-medium"
+                  >
+                    {offset}
+                  </span>
+                ))}
+              </div>
+            </section>
+          )}
 
           {/* Destination Link */}
           {report.destinationLink && (

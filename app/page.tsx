@@ -101,7 +101,7 @@ export default function Home() {
     <div>
       <Hero />
 
-      <div className="max-w-7xl mx-auto px-4 py-8">
+      <div className="max-w-[1400px] mx-auto px-4 py-8">
         {/* Search and View Toggle */}
         <div className="mb-6 flex flex-col md:flex-row gap-4 items-start md:items-center justify-between">
           <div className="flex-1 w-full md:w-auto">

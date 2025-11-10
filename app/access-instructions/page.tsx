@@ -1,8 +1,8 @@
 export default function AccessInstructionsPage() {
   return (
     <div className="min-h-screen bg-gray-50">
-      <div className="hero-gradient text-white py-12">
-        <div className="max-w-5xl mx-auto px-4">
+      <div className="relative -mt-20 pt-32 pb-12 hero-gradient text-white">
+        <div className="max-w-[1400px] mx-auto px-4">
           <h1 className="text-4xl font-bold mb-4">Access Instructions</h1>
           <p className="text-lg text-white text-opacity-90">
             Information on how to access FDM reports and tools
@@ -10,31 +10,63 @@ export default function AccessInstructionsPage() {
         </div>
       </div>
 
-      <div className="max-w-5xl mx-auto px-4 py-12">
+      <div className="max-w-[1400px] mx-auto px-4 py-12">
         <div className="space-y-8">
-          {/* General Access Section */}
+          {/* How to Request Access */}
+          <div className="bg-white rounded-lg shadow-lg p-8 border-l-4 border-blue-500">
+            <h2 className="text-2xl font-bold text-gray-900 mb-4">
+              How to Request Access
+            </h2>
+            <div className="space-y-4 text-gray-800">
+              <p className="text-lg font-semibold">
+                To access FDM Data Solution Portal reports teamsites, please follow these steps:
+              </p>
+              <ol className="list-decimal list-inside space-y-3 ml-4 text-gray-700">
+                <li className="pl-2">
+                  <span className="font-semibold">Navigate to the All Access platform</span>
+                </li>
+                <li className="pl-2">
+                  <span className="font-semibold">Search for and apply for the following access:</span>
+                  <div className="mt-2 ml-6">
+                    <code className="bg-blue-50 px-4 py-2 rounded border border-blue-200 text-blue-700 font-mono text-base inline-block">
+                      Teamsite-FDM-Visitors
+                    </code>
+                  </div>
+                </li>
+                <li className="pl-2">
+                  <span className="font-semibold">Submit your request with business justification</span>
+                </li>
+              </ol>
+              <div className="mt-6 bg-gray-50 rounded-lg p-4 border border-gray-200">
+                <p className="text-sm text-gray-600">
+                  <strong>Note:</strong> If you need access to specific restricted reports, additional permissions may be required. 
+                  Contact the report owner listed on the report detail page.
+                </p>
+              </div>
+            </div>
+          </div>
+
+          {/* General Access Requirements */}
           <div className="bg-white rounded-lg shadow-lg p-8">
-            <h2 className="text-2xl font-bold text-gray-900 mb-4 flex items-center gap-2">
-              <span className="text-3xl">🔑</span>
+            <h2 className="text-2xl font-bold text-gray-900 mb-4">
               General Access Requirements
             </h2>
             <div className="space-y-4 text-gray-700">
               <p>
-                To access FDM Data Solution Portal reports and tools, you must have the following:
+                After receiving access approval, ensure you have the following:
               </p>
               <ul className="list-disc list-inside space-y-2 ml-4">
                 <li>Valid corporate network credentials (Active Directory account)</li>
-                <li>Approved access through your department manager</li>
-                <li>Completed FDM Portal training module (for first-time users)</li>
+                <li>VPN access if working remotely</li>
                 <li>Two-factor authentication (2FA) enabled on your account</li>
+                <li>Modern web browser (Chrome, Firefox, Edge, or Safari)</li>
               </ul>
             </div>
           </div>
 
           {/* Access Methods Section */}
           <div className="bg-white rounded-lg shadow-lg p-8">
-            <h2 className="text-2xl font-bold text-gray-900 mb-4 flex items-center gap-2">
-              <span className="text-3xl">🌐</span>
+            <h2 className="text-2xl font-bold text-gray-900 mb-4">
               Access Methods
             </h2>
             <div className="space-y-6">
@@ -81,8 +113,7 @@ export default function AccessInstructionsPage() {
 
           {/* Report-Specific Access Section */}
           <div className="bg-white rounded-lg shadow-lg p-8">
-            <h2 className="text-2xl font-bold text-gray-900 mb-4 flex items-center gap-2">
-              <span className="text-3xl">📊</span>
+            <h2 className="text-2xl font-bold text-gray-900 mb-4">
               Report-Specific Access
             </h2>
             <div className="space-y-4 text-gray-700">
@@ -112,8 +143,7 @@ export default function AccessInstructionsPage() {
 
           {/* Troubleshooting Section */}
           <div className="bg-white rounded-lg shadow-lg p-8">
-            <h2 className="text-2xl font-bold text-gray-900 mb-4 flex items-center gap-2">
-              <span className="text-3xl">🔧</span>
+            <h2 className="text-2xl font-bold text-gray-900 mb-4">
               Troubleshooting Common Issues
             </h2>
             <div className="space-y-4">
@@ -148,8 +178,7 @@ export default function AccessInstructionsPage() {
 
           {/* Support Section */}
           <div className="bg-blue-50 rounded-lg shadow-lg p-8 border border-blue-200">
-            <h2 className="text-2xl font-bold text-blue-900 mb-4 flex items-center gap-2">
-              <span className="text-3xl">💬</span>
+            <h2 className="text-2xl font-bold text-blue-900 mb-4">
               Need Help?
             </h2>
             <p className="text-blue-800 mb-4">

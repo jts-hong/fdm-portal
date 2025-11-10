@@ -120,7 +120,8 @@ When adding a new report to `reports.json`, you can use any value from the confi
   "sourceTables": ["Table1", "Table2"],     // Array of source table names
   "destinationLink": "https://portal.company.com/report",  // Link to the actual report
   "accessNeeded": "Portal Access, Role X",  // Required access/permissions
-  "lastUpdated": "2024-11-03"
+  "lastUpdated": "2024-11-03",
+  "businessDays": [-3, -2, -1, 1, 2, 3]      // Only required for Monthly/Quarterly/Annual reports
 }
 ```
 
@@ -137,4 +138,5 @@ When adding a new report to `reports.json`, you can use any value from the confi
 - This ensures backward compatibility - existing reports will continue to work even if their values aren't in the config file
 - Filter options are automatically sorted alphabetically in the UI
 - Changes to the config file take effect immediately after saving (no code changes needed)
+- **Business Day Offsets**: For reports with Monthly, Quarterly, or Annual frequency, provide a `businessDays` array in `reports.json` to indicate pre-/post-day execution (e.g., `[-3, -2, -1, 1, 2, 3]`). For Daily or Weekly reports, use an empty array `[]`.
 
