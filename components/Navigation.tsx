@@ -57,12 +57,12 @@ export default function Navigation() {
               })}
             </div>
 
-            <Link
-              href="/contacts"
+            <a
+              href="mailto:fdm-team@company.com"
               className="hidden sm:inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white text-[#1f3a68] font-semibold text-sm shadow-lg shadow-[#1f3a68]/30 hover:shadow-xl transition-shadow"
             >
               <span>Contact FDM Team</span>
-            </Link>
+            </a>
 
             <button
               type="button"
