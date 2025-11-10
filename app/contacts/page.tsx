@@ -158,25 +158,6 @@ export default function ContactsPage() {
               </div>
             )}
           </div>
-
-          {/* Support Hours */}
-          <div className="bg-blue-50 rounded-lg shadow-lg p-8 border border-blue-200">
-            <h2 className="text-2xl font-bold text-blue-900 mb-4">
-              Support Hours
-            </h2>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 text-blue-800">
-              <div>
-                <p className="font-semibold mb-2">Regular Support</p>
-                <p className="text-sm">Monday - Friday: 8:00 AM - 6:00 PM EST</p>
-                <p className="text-sm">Response time: Within 24 business hours</p>
-              </div>
-              <div>
-                <p className="font-semibold mb-2">Urgent Issues</p>
-                <p className="text-sm">Available 24/7 for critical system outages</p>
-                <p className="text-sm">Contact: IT Service Desk Emergency Line</p>
-              </div>
-            </div>
-          </div>
         </div>
       </div>
     </div>
