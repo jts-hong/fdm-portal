@@ -5,7 +5,7 @@ const nextConfig: NextConfig = {
   images: {
     unoptimized: true,
   },
-  basePath: process.env.NODE_ENV === 'production' ? '/fdm-portal' : '',
+  basePath: '/fdm-portal',
   assetPrefix: process.env.NODE_ENV === 'production' ? '/fdm-portal/' : '',
 };
 

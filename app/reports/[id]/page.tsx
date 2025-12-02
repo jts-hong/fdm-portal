@@ -112,6 +112,23 @@ export default async function ReportDetailPage({ params }: PageProps) {
             </section>
           )}
 
+          {/* Team Tags */}
+          {report.teamTags && report.teamTags.length > 0 && (
+            <section className="mb-8">
+              <h2 className="text-2xl font-bold text-gray-900 mb-4">Team Tags</h2>
+              <div className="flex flex-wrap gap-2">
+                {report.teamTags.map((tag, index) => (
+                  <span
+                    key={index}
+                    className="px-3 py-1 bg-purple-100 text-purple-800 rounded-full text-sm font-medium"
+                  >
+                    {tag}
+                  </span>
+                ))}
+              </div>
+            </section>
+          )}
+
           {/* Report Details */}
           <section className="mb-8">
             <h2 className="text-2xl font-bold text-gray-900 mb-4">Report Details</h2>

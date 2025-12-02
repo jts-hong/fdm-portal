@@ -126,6 +126,19 @@
     "Monthly",
     "Quarterly",
     "Annual"
+  ],
+  "reportCategories": [
+    "Dashboard",
+    "Python Process",
+    "SQL Report",
+    "Excel Report"
+  ],
+  "teamTags": [
+    "Urgent",
+    "Review Required",
+    "Q1 Goal",
+    "Compliance Critical",
+    "Audit Ready",
+    "Internal Only"
   ]
 }
-

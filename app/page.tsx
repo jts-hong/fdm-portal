@@ -16,6 +16,8 @@ export default function Home() {
     reportingDomains: [],
     processOwners: [],
     teams: [],
+    teamTags: [],
+    reportCategories: [],
     reportingFrequencies: [],
     searchQuery: '',
   });
@@ -25,6 +27,12 @@ export default function Home() {
     const reportDomains = new Set(reports.map((r) => r.reportingDomain));
     const configDomains = new Set(configData.reportingDomains);
     return Array.from(new Set([...configDomains, ...reportDomains])).sort();
+  }, [reports]);
+
+  const availableTeamTags = useMemo(() => {
+    const reportTags = new Set(reports.flatMap((r) => r.teamTags || []));
+    const configTags = new Set(configData.teamTags);
+    return Array.from(new Set([...configTags, ...reportTags])).sort();
   }, [reports]);
 
   const availableOwners = useMemo(() => {
@@ -49,6 +57,12 @@ export default function Home() {
     return Array.from(new Set([...configFrequencies, ...reportFrequencies])).sort();
   }, [reports]);
 
+  const availableCategories = useMemo(() => {
+    const reportCategories = new Set(reports.map((r) => r.category));
+    const configCategories = new Set(configData.reportCategories);
+    return Array.from(new Set([...configCategories, ...reportCategories])).sort();
+  }, [reports]);
+
   // Filter reports
   const filteredReports = useMemo(() => {
     return reports.filter((report) => {
@@ -69,6 +83,14 @@ export default function Home() {
         return false;
       }
 
+      // Team Tag filter
+      if (
+        filters.teamTags.length > 0 &&
+        (!report.teamTags || !filters.teamTags.some((tag) => report.teamTags?.includes(tag)))
+      ) {
+        return false;
+      }
+
       // Owner filter
       if (
         filters.processOwners.length > 0 &&
@@ -81,6 +103,14 @@ export default function Home() {
       if (
         filters.teams.length > 0 &&
         !filters.teams.includes(report.team)
+      ) {
+        return false;
+      }
+
+      // Category filter
+      if (
+        filters.reportCategories.length > 0 &&
+        !filters.reportCategories.includes(report.category)
       ) {
         return false;
       }
@@ -98,10 +128,10 @@ export default function Home() {
   }, [reports, filters]);
 
   return (
-    <div>
+    <main className="min-h-screen bg-gray-50">
       <Hero />
 
-      <div className="max-w-[1400px] mx-auto px-4 py-8">
+      <div className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8 py-8">
         {/* Search and View Toggle */}
         <div className="mb-6 flex flex-col md:flex-row gap-4 items-start md:items-center justify-between">
           <div className="flex-1 w-full md:w-auto">
@@ -116,11 +146,10 @@ export default function Home() {
           <div className="flex gap-2">
             <button
               onClick={() => setViewMode('gallery')}
-              className={`p-2 rounded-md transition-colors ${
-                viewMode === 'gallery'
-                  ? 'bg-[#4a90e2] text-white shadow-md'
-                  : 'bg-white text-gray-700 hover:bg-gray-100 border border-gray-300'
-              }`}
+              className={`p-2 rounded-md transition-colors ${viewMode === 'gallery'
+                ? 'bg-[#4a90e2] text-white shadow-md'
+                : 'bg-white text-gray-700 hover:bg-gray-100 border border-gray-300'
+                }`}
               title="Gallery View"
             >
               <svg
@@ -140,11 +169,10 @@ export default function Home() {
             </button>
             <button
               onClick={() => setViewMode('list')}
-              className={`p-2 rounded-md transition-colors ${
-                viewMode === 'list'
-                  ? 'bg-[#4a90e2] text-white shadow-md'
-                  : 'bg-white text-gray-700 hover:bg-gray-100 border border-gray-300'
-              }`}
+              className={`p-2 rounded-md transition-colors ${viewMode === 'list'
+                ? 'bg-[#4a90e2] text-white shadow-md'
+                : 'bg-white text-gray-700 hover:bg-gray-100 border border-gray-300'
+                }`}
               title="List View"
             >
               <svg
@@ -172,43 +200,60 @@ export default function Home() {
               filters={filters}
               onFilterChange={setFilters}
               availableDomains={availableDomains}
+              availableTeamTags={availableTeamTags}
               availableOwners={availableOwners}
               availableTeams={availableTeams}
+              availableCategories={availableCategories}
               availableFrequencies={availableFrequencies}
             />
           </div>
 
-          {/* Reports Grid/List */}
+          {/* Results Area */}
           <div className="flex-1">
-            <div className="mb-4">
-              <p className="text-gray-600">
-                Showing <span className="font-semibold">{filteredReports.length}</span> of{' '}
-                <span className="font-semibold">{reports.length}</span> reports
-              </p>
+            <div className="mb-4 text-gray-600">
+              Found {filteredReports.length} report{filteredReports.length !== 1 ? 's' : ''}
             </div>
 
-            {filteredReports.length === 0 ? (
-              <div className="bg-white rounded-lg shadow-md p-12 text-center">
-                <p className="text-gray-500 text-lg">
-                  No reports found matching your criteria.
-                </p>
+            {viewMode === 'gallery' ? (
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                {filteredReports.map((report) => (
+                  <ReportCard key={report.id} report={report} viewMode="gallery" />
+                ))}
               </div>
             ) : (
-              <div
-                className={
-                  viewMode === 'gallery'
-                    ? 'grid grid-cols-1 md:grid-cols-2 gap-6'
-                    : 'space-y-4'
-                }
-              >
+              <div className="space-y-4">
                 {filteredReports.map((report) => (
-                  <ReportCard key={report.id} report={report} viewMode={viewMode} />
+                  <ReportCard key={report.id} report={report} viewMode="list" />
                 ))}
+              </div>
+            )}
+
+            {filteredReports.length === 0 && (
+              <div className="text-center py-12 bg-white rounded-lg shadow-sm">
+                <p className="text-gray-500 text-lg">No reports found matching your criteria.</p>
+                <button
+                  onClick={() =>
+                    setFilters({
+                      reportingDomains: [],
+                      processOwners: [],
+                      teams: [],
+                      teamTags: [],
+                      reportCategories: [],
+                      reportingFrequencies: [],
+                      searchQuery: '',
+                    })
+                  }
+                  className="mt-4 text-blue-600 hover:text-blue-800 font-medium"
+                >
+                  Clear all filters
+                </button>
               </div>
             )}
           </div>
         </div>
       </div>
-    </div>
+    </main>
   );
 }
+
+

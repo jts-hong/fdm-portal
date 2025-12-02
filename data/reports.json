@@ -17,7 +17,11 @@
     "destinationLink": "https://portal.company.com/bcm-change-dashboard",
     "accessNeeded": "BCM Portal Access, Risk Advisor Role",
     "lastUpdated": "2024-11-03",
-    "businessDays": []
+    "businessDays": [],
+    "teamTags": [
+      "Urgent",
+      "Compliance Critical"
+    ]
   },
   {
     "id": "bcm-metrics-tool",
@@ -37,7 +41,10 @@
     "destinationLink": "https://portal.company.com/bcm-metrics",
     "accessNeeded": "BCM Portal Access, 1st or 2nd Line Team Membership",
     "lastUpdated": "2024-11-03",
-    "businessDays": []
+    "businessDays": [],
+    "teamTags": [
+      "Review Required"
+    ]
   },
   {
     "id": "bcrm-mra-metrics",
@@ -57,7 +64,10 @@
     "destinationLink": "https://portal.company.com/bcrm-mra-metrics",
     "accessNeeded": "BCRM Team Lead Role, MRA Access Permission",
     "lastUpdated": "2024-11-03",
-    "businessDays": []
+    "businessDays": [],
+    "teamTags": [
+      "Q1 Goal"
+    ]
   },
   {
     "id": "bcrm-workforce-concentration",
@@ -77,7 +87,17 @@
     "destinationLink": "https://portal.company.com/bcrm-workforce-concentration",
     "accessNeeded": "HR Department Access, BCRM Leadership Role",
     "lastUpdated": "2024-11-03",
-    "businessDays": [-3, -2, -1, 1, 2, 3]
+    "businessDays": [
+      -3,
+      -2,
+      -1,
+      1,
+      2,
+      3
+    ],
+    "teamTags": [
+      "Internal Only"
+    ]
   },
   {
     "id": "access-control-dashboard",
@@ -97,7 +117,11 @@
     "destinationLink": "https://portal.company.com/access-control-dashboard",
     "accessNeeded": "Security Operations Access, Identity Management Permission",
     "lastUpdated": "2024-11-03",
-    "businessDays": []
+    "businessDays": [],
+    "teamTags": [
+      "Audit Ready",
+      "Compliance Critical"
+    ]
   },
   {
     "id": "risk-assessment-tool",
@@ -117,7 +141,16 @@
     "destinationLink": "https://portal.company.com/risk-assessment",
     "accessNeeded": "Risk Manager Role, Enterprise Risk Portal Access",
     "lastUpdated": "2024-11-03",
-    "businessDays": [-3, -2, -1, 1, 2, 3]
+    "businessDays": [
+      -3,
+      -2,
+      -1,
+      1,
+      2,
+      3
+    ],
+    "teamTags": [
+      "Urgent"
+    ]
   }
 ]
-

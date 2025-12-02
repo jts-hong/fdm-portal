@@ -9,6 +9,7 @@ interface FilterSidebarProps {
   availableDomains: string[];
   availableOwners: string[];
   availableTeams: string[];
+  availableCategories: string[];
   availableFrequencies: string[];
 }
 
@@ -17,9 +18,10 @@ interface MultiSelectProps {
   options: string[];
   selected: string[];
   onChange: (selected: string[]) => void;
+  disabled?: boolean;
 }
 
-function MultiSelect({ label, options, selected, onChange }: MultiSelectProps) {
+function MultiSelect({ label, options, selected, onChange, disabled = false }: MultiSelectProps) {
   const [isOpen, setIsOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
 
@@ -42,19 +44,20 @@ function MultiSelect({ label, options, selected, onChange }: MultiSelectProps) {
     }
   };
 
-  const displayText = selected.length === 0 
-    ? `All ${label}` 
-    : selected.length === 1 
-    ? selected[0] 
-    : `${selected.length} selected`;
+  const displayText = selected.length === 0
+    ? `All ${label}`
+    : selected.length === 1
+      ? selected[0]
+      : `${selected.length} selected`;
 
   return (
-    <div className="mb-6 relative" ref={dropdownRef}>
+    <div className={`mb-6 relative ${disabled ? 'opacity-50 pointer-events-none' : ''}`} ref={dropdownRef}>
       <label className="block font-semibold mb-2 text-gray-700">{label}</label>
       <button
         type="button"
-        onClick={() => setIsOpen(!isOpen)}
-        className="w-full px-4 py-2.5 bg-white border border-gray-300 rounded-lg shadow-sm hover:border-blue-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all text-left flex items-center justify-between"
+        onClick={() => !disabled && setIsOpen(!isOpen)}
+        disabled={disabled}
+        className={`w-full px-4 py-2.5 bg-white border border-gray-300 rounded-lg shadow-sm hover:border-blue-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all text-left flex items-center justify-between ${disabled ? 'bg-gray-100 cursor-not-allowed' : ''}`}
       >
         <span className={`text-sm ${selected.length === 0 ? 'text-gray-500' : 'text-gray-900'}`}>
           {displayText}
@@ -69,7 +72,7 @@ function MultiSelect({ label, options, selected, onChange }: MultiSelectProps) {
         </svg>
       </button>
 
-      {isOpen && (
+      {isOpen && !disabled && (
         <div className="absolute z-50 w-full mt-1 bg-white border border-gray-300 rounded-lg shadow-lg max-h-60 overflow-auto">
           <div className="p-2">
             {options.map((option) => {
@@ -129,8 +132,12 @@ export default function FilterSidebar({
   availableDomains,
   availableOwners,
   availableTeams,
+  availableTeamTags,
+  availableCategories,
   availableFrequencies,
-}: FilterSidebarProps) {
+}: FilterSidebarProps & { availableTeamTags: string[] }) {
+  const isTeamTagsDisabled = filters.reportingDomains.length === 0;
+
   return (
     <div className="bg-white rounded-lg shadow-md p-6">
       <h2 className="text-xl font-bold mb-6 text-gray-900">Filters</h2>
@@ -141,6 +148,19 @@ export default function FilterSidebar({
         selected={filters.reportingDomains}
         onChange={(selected) => onFilterChange({ ...filters, reportingDomains: selected })}
       />
+
+      <MultiSelect
+        label="Team Tags"
+        options={availableTeamTags}
+        selected={filters.teamTags}
+        onChange={(selected) => onFilterChange({ ...filters, teamTags: selected })}
+        disabled={isTeamTagsDisabled}
+      />
+      {isTeamTagsDisabled && (
+        <p className="text-xs text-gray-500 -mt-4 mb-6 ml-1">
+          * Select a Reporting Domain to enable
+        </p>
+      )}
 
       <MultiSelect
         label="Process Owner"
@@ -157,6 +177,13 @@ export default function FilterSidebar({
       />
 
       <MultiSelect
+        label="Report Category"
+        options={availableCategories}
+        selected={filters.reportCategories}
+        onChange={(selected) => onFilterChange({ ...filters, reportCategories: selected })}
+      />
+
+      <MultiSelect
         label="Reporting Frequency"
         options={availableFrequencies}
         selected={filters.reportingFrequencies}
@@ -170,6 +197,8 @@ export default function FilterSidebar({
             reportingDomains: [],
             processOwners: [],
             teams: [],
+            teamTags: [],
+            reportCategories: [],
             reportingFrequencies: [],
             searchQuery: filters.searchQuery,
           })

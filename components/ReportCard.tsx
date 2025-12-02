@@ -61,10 +61,18 @@ export default function ReportCard({ report, viewMode }: ReportCardProps) {
   return (
     <Link href={`/reports/${report.id}`}>
       <div className="bg-white rounded-lg card-shadow p-6 h-full border-t-4 border-blue-600">
-        <div className="mb-4">
-          <span className={`badge ${getFrequencyBadgeClass(report.reportingFrequency)}`}>
-            Updated {report.reportingFrequency}
+        <div className="flex flex-wrap gap-2 mb-3">
+          <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-800">
+            {report.reportingDomain}
           </span>
+          <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-gray-100 text-gray-800">
+            {report.reportingFrequency}
+          </span>
+          {report.teamTags?.map((tag) => (
+            <span key={tag} className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-purple-100 text-purple-800">
+              {tag}
+            </span>
+          ))}
         </div>
         <h3 className="text-lg font-bold text-gray-900 mb-3">{report.name}</h3>
         <p className="text-sm text-gray-600 mb-4 line-clamp-3">{report.shortDescription}</p>

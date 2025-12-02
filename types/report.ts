@@ -4,6 +4,7 @@ export interface Report {
   reportingDomain: string;
   processOwner: string;
   team: string;
+  category: string;
   reportingFrequency: 'Daily' | 'Weekly' | 'Monthly' | 'Quarterly' | 'Annual';
   shortDescription: string;
   detailedDescription: string;
@@ -12,6 +13,7 @@ export interface Report {
   accessNeeded: string;
   lastUpdated: string;
   businessDays?: number[];
+  teamTags?: string[];
 }
 
 export interface ProcessOwner {
@@ -30,6 +32,8 @@ export interface FilterState {
   reportingDomains: string[];
   processOwners: string[];
   teams: string[];
+  teamTags: string[];
+  reportCategories: string[];
   reportingFrequencies: string[];
   searchQuery: string;
 }
