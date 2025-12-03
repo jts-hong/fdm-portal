@@ -2,15 +2,12 @@
 
 import { useState, useRef, useEffect } from 'react';
 import { FilterState } from '@/types/report';
+import { getSortedFilters, isFilterDisabled, getEmptyFilterState } from '@/config/filterConfig';
 
 interface FilterSidebarProps {
   filters: FilterState;
   onFilterChange: (filters: FilterState) => void;
-  availableDomains: string[];
-  availableOwners: string[];
-  availableTeams: string[];
-  availableCategories: string[];
-  availableFrequencies: string[];
+  availableOptions: Record<keyof FilterState, string[]>;
 }
 
 interface MultiSelectProps {
@@ -129,80 +126,42 @@ function MultiSelect({ label, options, selected, onChange, disabled = false }: M
 export default function FilterSidebar({
   filters,
   onFilterChange,
-  availableDomains,
-  availableOwners,
-  availableTeams,
-  availableTeamTags,
-  availableCategories,
-  availableFrequencies,
-}: FilterSidebarProps & { availableTeamTags: string[] }) {
-  const isTeamTagsDisabled = filters.reportingDomains.length === 0;
+  availableOptions,
+}: FilterSidebarProps) {
+  const sortedFilters = getSortedFilters();
 
   return (
     <div className="bg-white rounded-lg shadow-md p-6">
       <h2 className="text-xl font-bold mb-6 text-gray-900">Filters</h2>
 
-      <MultiSelect
-        label="Reporting Domain"
-        options={availableDomains}
-        selected={filters.reportingDomains}
-        onChange={(selected) => onFilterChange({ ...filters, reportingDomains: selected })}
-      />
+      {sortedFilters.map((filterConfig) => {
+        const isDisabled = isFilterDisabled(filterConfig.id, filters);
+        const selected = filters[filterConfig.id] as string[];
+        const options = availableOptions[filterConfig.id] || [];
 
-      <MultiSelect
-        label="Team Tags"
-        options={availableTeamTags}
-        selected={filters.teamTags}
-        onChange={(selected) => onFilterChange({ ...filters, teamTags: selected })}
-        disabled={isTeamTagsDisabled}
-      />
-      {isTeamTagsDisabled && (
-        <p className="text-xs text-gray-500 -mt-4 mb-6 ml-1">
-          * Select a Reporting Domain to enable
-        </p>
-      )}
-
-      <MultiSelect
-        label="Process Owner"
-        options={availableOwners}
-        selected={filters.processOwners}
-        onChange={(selected) => onFilterChange({ ...filters, processOwners: selected })}
-      />
-
-      <MultiSelect
-        label="Team"
-        options={availableTeams}
-        selected={filters.teams}
-        onChange={(selected) => onFilterChange({ ...filters, teams: selected })}
-      />
-
-      <MultiSelect
-        label="Report Category"
-        options={availableCategories}
-        selected={filters.reportCategories}
-        onChange={(selected) => onFilterChange({ ...filters, reportCategories: selected })}
-      />
-
-      <MultiSelect
-        label="Reporting Frequency"
-        options={availableFrequencies}
-        selected={filters.reportingFrequencies}
-        onChange={(selected) => onFilterChange({ ...filters, reportingFrequencies: selected })}
-      />
+        return (
+          <div key={filterConfig.id}>
+            <MultiSelect
+              label={filterConfig.label}
+              options={options}
+              selected={selected}
+              onChange={(newSelected) =>
+                onFilterChange({ ...filters, [filterConfig.id]: newSelected })
+              }
+              disabled={isDisabled}
+            />
+            {isDisabled && filterConfig.dependsOn && (
+              <p className="text-xs text-gray-500 -mt-4 mb-6 ml-1">
+                {filterConfig.dependsOn.helperText}
+              </p>
+            )}
+          </div>
+        );
+      })}
 
       {/* Reset Filters */}
       <button
-        onClick={() =>
-          onFilterChange({
-            reportingDomains: [],
-            processOwners: [],
-            teams: [],
-            teamTags: [],
-            reportCategories: [],
-            reportingFrequencies: [],
-            searchQuery: filters.searchQuery,
-          })
-        }
+        onClick={() => onFilterChange(getEmptyFilterState())}
         className="w-full mt-4 px-4 py-2.5 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 transition-colors text-sm font-medium shadow-sm"
       >
         Reset Filters

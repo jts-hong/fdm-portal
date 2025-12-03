@@ -7,66 +7,78 @@ import ReportCard from '@/components/ReportCard';
 import { Report, ViewMode, FilterState } from '@/types/report';
 import reportsData from '@/data/reports.json';
 import configData from '@/data/config.json';
+import { FILTER_CONFIGS, getEmptyFilterState, getFilterConfig } from '@/config/filterConfig';
 
 export default function Home() {
   const reports: Report[] = reportsData as Report[];
 
   const [viewMode, setViewMode] = useState<ViewMode>('gallery');
-  const [filters, setFilters] = useState<FilterState>({
-    reportingDomains: [],
-    processOwners: [],
-    teams: [],
-    teamTags: [],
-    reportCategories: [],
-    reportingFrequencies: [],
-    searchQuery: '',
-  });
+  const [filters, setFilters] = useState<FilterState>(getEmptyFilterState());
 
-  // Use config file for available options, but also include any values found in reports
-  const availableDomains = useMemo(() => {
-    const reportDomains = new Set(reports.map((r) => r.reportingDomain));
-    const configDomains = new Set(configData.reportingDomains);
-    return Array.from(new Set([...configDomains, ...reportDomains])).sort();
-  }, [reports]);
+  // Dynamically generate available options for all filters based on configuration
+  const availableOptions = useMemo(() => {
+    const options: Record<keyof FilterState, string[]> = {} as any;
 
-  const availableTeamTags = useMemo(() => {
-    const reportTags = new Set(reports.flatMap((r) => r.teamTags || []));
-    const configTags = new Set(configData.teamTags);
-    return Array.from(new Set([...configTags, ...reportTags])).sort();
-  }, [reports]);
+    // First, determine which reports to consider based on current filters
+    const getFilteredReportsForOptions = (filterId: keyof FilterState) => {
+      // For dependent filters, only consider reports that match the parent filter
+      const filterConfig = getFilterConfig(filterId);
+      if (filterConfig?.dependsOn) {
+        const parentFilterId = filterConfig.dependsOn.filterId;
+        const parentSelectedValues = filters[parentFilterId] as string[];
 
-  const availableOwners = useMemo(() => {
-    const reportOwners = new Set(reports.map((r) => r.processOwner));
-    const configOwners = new Set(
-      Array.isArray(configData.processOwners) && configData.processOwners[0]?.name
-        ? configData.processOwners.map((p: any) => p.name)
-        : configData.processOwners
-    );
-    return Array.from(new Set([...configOwners, ...reportOwners])).sort();
-  }, [reports]);
+        if (parentSelectedValues.length > 0) {
+          // Filter reports based on parent filter selection
+          const parentConfig = getFilterConfig(parentFilterId);
+          if (parentConfig) {
+            return reports.filter((r: any) => {
+              const reportValue = r[parentConfig.reportField];
+              return parentSelectedValues.includes(reportValue);
+            });
+          }
+        }
+      }
+      // If no dependency or parent not selected, use all reports
+      return reports;
+    };
 
-  const availableTeams = useMemo(() => {
-    const reportTeams = new Set(reports.map((r) => r.team));
-    const configTeams = new Set(configData.teams);
-    return Array.from(new Set([...configTeams, ...reportTeams])).sort();
-  }, [reports]);
+    FILTER_CONFIGS.forEach((filterConfig) => {
+      // Get values from config file
+      const configValues = configData[filterConfig.configKey];
+      let configSet: Set<string>;
 
-  const availableFrequencies = useMemo(() => {
-    const reportFrequencies = new Set(reports.map((r) => r.reportingFrequency));
-    const configFrequencies = new Set(configData.reportingFrequencies);
-    return Array.from(new Set([...configFrequencies, ...reportFrequencies])).sort();
-  }, [reports]);
+      // Handle different config data formats (array of objects vs array of strings)
+      if (Array.isArray(configValues) && configValues.length > 0 && typeof configValues[0] === 'object' && configValues[0] !== null && 'name' in configValues[0]) {
+        configSet = new Set(configValues.map((item: any) => item.name));
+      } else {
+        configSet = new Set(configValues as string[]);
+      }
 
-  const availableCategories = useMemo(() => {
-    const reportCategories = new Set(reports.map((r) => r.category));
-    const configCategories = new Set(configData.reportCategories);
-    return Array.from(new Set([...configCategories, ...reportCategories])).sort();
-  }, [reports]);
+      // Get values from reports (filtered if this filter has dependencies)
+      const relevantReports = getFilteredReportsForOptions(filterConfig.id);
+      let reportSet: Set<string>;
+      if (filterConfig.isArrayField) {
+        // For array fields like teamTags
+        reportSet = new Set(relevantReports.flatMap((r: any) => r[filterConfig.reportField] || []));
+      } else {
+        // For single value fields
+        reportSet = new Set(relevantReports.map((r: any) => r[filterConfig.reportField]));
+      }
 
-  // Filter reports
+      // Combine and sort
+      options[filterConfig.id] = Array.from(new Set([...configSet, ...reportSet])).sort();
+    });
+
+    // searchQuery is not a filter with options
+    options.searchQuery = [];
+
+    return options;
+  }, [reports, filters]);
+
+  // Filter reports dynamically based on configuration
   const filteredReports = useMemo(() => {
-    return reports.filter((report) => {
-      // Search query filter
+    return reports.filter((report: any) => {
+      // Search query filter (special case, not in FILTER_CONFIGS)
       if (
         filters.searchQuery &&
         !report.name.toLowerCase().includes(filters.searchQuery.toLowerCase()) &&
@@ -75,52 +87,25 @@ export default function Home() {
         return false;
       }
 
-      // Domain filter
-      if (
-        filters.reportingDomains.length > 0 &&
-        !filters.reportingDomains.includes(report.reportingDomain)
-      ) {
-        return false;
-      }
+      // Apply all configured filters
+      for (const filterConfig of FILTER_CONFIGS) {
+        const selectedValues = filters[filterConfig.id] as string[];
 
-      // Team Tag filter
-      if (
-        filters.teamTags.length > 0 &&
-        (!report.teamTags || !filters.teamTags.some((tag) => report.teamTags?.includes(tag)))
-      ) {
-        return false;
-      }
+        if (selectedValues.length > 0) {
+          const reportValue = report[filterConfig.reportField];
 
-      // Owner filter
-      if (
-        filters.processOwners.length > 0 &&
-        !filters.processOwners.includes(report.processOwner)
-      ) {
-        return false;
-      }
-
-      // Team filter
-      if (
-        filters.teams.length > 0 &&
-        !filters.teams.includes(report.team)
-      ) {
-        return false;
-      }
-
-      // Category filter
-      if (
-        filters.reportCategories.length > 0 &&
-        !filters.reportCategories.includes(report.category)
-      ) {
-        return false;
-      }
-
-      // Frequency filter
-      if (
-        filters.reportingFrequencies.length > 0 &&
-        !filters.reportingFrequencies.includes(report.reportingFrequency)
-      ) {
-        return false;
+          if (filterConfig.isArrayField) {
+            // For array fields (like teamTags), check if any selected value is in the report's array
+            if (!reportValue || !selectedValues.some((val) => reportValue.includes(val))) {
+              return false;
+            }
+          } else {
+            // For single value fields, check if the report's value is in the selected values
+            if (!selectedValues.includes(reportValue)) {
+              return false;
+            }
+          }
+        }
       }
 
       return true;
@@ -199,12 +184,7 @@ export default function Home() {
             <FilterSidebar
               filters={filters}
               onFilterChange={setFilters}
-              availableDomains={availableDomains}
-              availableTeamTags={availableTeamTags}
-              availableOwners={availableOwners}
-              availableTeams={availableTeams}
-              availableCategories={availableCategories}
-              availableFrequencies={availableFrequencies}
+              availableOptions={availableOptions}
             />
           </div>
 
@@ -232,17 +212,7 @@ export default function Home() {
               <div className="text-center py-12 bg-white rounded-lg shadow-sm">
                 <p className="text-gray-500 text-lg">No reports found matching your criteria.</p>
                 <button
-                  onClick={() =>
-                    setFilters({
-                      reportingDomains: [],
-                      processOwners: [],
-                      teams: [],
-                      teamTags: [],
-                      reportCategories: [],
-                      reportingFrequencies: [],
-                      searchQuery: '',
-                    })
-                  }
+                  onClick={() => setFilters(getEmptyFilterState())}
                   className="mt-4 text-blue-600 hover:text-blue-800 font-medium"
                 >
                   Clear all filters
