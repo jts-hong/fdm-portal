@@ -45,11 +45,10 @@ export default function Navigation() {
                   <Link
                     key={item.path}
                     href={item.path}
-                    className={`px-4 py-2 rounded-full text-sm font-medium transition-colors ${
-                      isActive
+                    className={`px-4 py-2 rounded-full text-sm font-medium transition-colors ${isActive
                         ? 'bg-white text-[#1f3a68] shadow-sm'
                         : 'text-white/90 hover:text-white hover:bg-white/20'
-                    }`}
+                      }`}
                   >
                     {item.name}
                   </Link>

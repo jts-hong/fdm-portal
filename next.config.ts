@@ -1,12 +1,15 @@
 import type { NextConfig } from "next";
 
+const isProd = process.env.NODE_ENV === 'production';
+const basePath = process.env.BASE_PATH || '';
+
 const nextConfig: NextConfig = {
   output: 'export',
   images: {
     unoptimized: true,
   },
-  basePath: '/fdm-portal',
-  assetPrefix: process.env.NODE_ENV === 'production' ? '/fdm-portal/' : '',
+  basePath: basePath,
+  assetPrefix: basePath ? `${basePath}/` : '',
 };
 
 export default nextConfig;
